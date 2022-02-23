@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GraphQL.Infrastructure\GraphQL.Infrastructure.csproj" />
+    <ProjectReference Include="..\Store.Client\Store.Client.csproj" />
   </ItemGroup>
 
 
