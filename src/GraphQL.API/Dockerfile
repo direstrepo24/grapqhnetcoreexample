@@ -1,7 +1,7 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0.2-bullseye-slim AS base
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim AS build
 WORKDIR /src
 COPY ["src/GraphQL.API/GraphQL.API.csproj", "src/GraphQL.API/"]
 COPY ["src/GraphQL.Infrastructure/GraphQL.Infrastructure.csproj", "src/GraphQL.Infrastructure/"]
