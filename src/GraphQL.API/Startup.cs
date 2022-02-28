@@ -41,14 +41,18 @@ namespace GraphQL.API
             services.AddScoped<IProductRepository, ProductRepository>();
             //external api
             services.AddHttpClient<PersonService>(
-              (serviceProvider, httpClient) => httpClient.BaseAddress = this.restConfiguration.BaseAddress
-            // (serviceProvider, httpClient) => httpClient.BaseAddress = serviceProvider.GetRequiredService<IOptions<RestConfiguration>>().Value.BaseAddress
+             (serviceProvider, httpClient) => httpClient.BaseAddress = this.restConfiguration.BaseAddress
+            //(serviceProvider, httpClient) => httpClient.BaseAddress = serviceProvider.GetRequiredService<IOptions<RestConfiguration>>().Value.BaseAddress
+            // (serviceProvider, httpClient) => httpClient.BaseAddress = new Uri("https://localhost:7204/")
             );
             // GraphQL
             services
-            // .AddGraphQL(Schema.Build())
-                .AddGraphQLServer()
-                     .AddQueryType(d => d.Name("Query"))
+
+                .AddGraphQLServer().ModifyOptions(opt =>
+                    {
+                        opt.StrictValidation = false;
+                    })
+                        .AddQueryType(d => d.Name("Query"))
                        .AddTypeExtension<ProductQuery>()
                     .AddTypeExtension<CategoryQuery>()
                     .AddTypeExtension<PersonQuery>()
@@ -58,8 +62,8 @@ namespace GraphQL.API
                    .AddSubscriptionType(d => d.Name("Subscription"))
                     .AddTypeExtension<ProductSubscriptions>()
                      .AddType<ProductType>()
-                // .AddType<QueryType>()  ///here problem
-                // .AddType<PersonType>()
+                 //  .AddType<QueryType>()  ///here problem
+                 .AddType<PersonType>()
                 .AddType<CategoryResolver>()
 
                 .AddInMemorySubscriptions();
